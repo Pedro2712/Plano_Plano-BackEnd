@@ -6,8 +6,14 @@
 ### Link para o FrontEnd:
 https://github.com/Pedro2712/Plano_Plano-FrontEnd
 
-### Codigos para rodar a aplicação:
+## Codigos para rodar a aplicação:
 
+### Caso não tenha criado um ambient virtual:
 ```cmd
+python -m venv env
+```
+### Caso já tenha criado um ambient virtual:
+```cmd
+env/Scripts/activate.bat
 python manage.py runserver
 ```
