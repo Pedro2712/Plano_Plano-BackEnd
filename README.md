@@ -15,5 +15,6 @@ python -m venv env
 ### Caso já tenha criado um ambient virtual:
 ```cmd
 env/Scripts/activate.bat
+pip install -r requirements.txt
 python manage.py runserver
 ```
