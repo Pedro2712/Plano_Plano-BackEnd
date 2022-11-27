@@ -14,12 +14,8 @@ from django.http import Http404, HttpResponseForbidden, JsonResponse
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
-# from calculos import *
 
-
-def index(request):
-    return HttpResponse("Olá mundo! Este é o app Terrenos de Tecnologias Web do Insper.")
-
+import funcoes as fc
 
 @api_view(['POST'])
 def cadastra(request):
@@ -85,14 +81,17 @@ def adiciona_terreno(request):
     print(request.data)
     if request.method == 'POST':
         new_Terreno_data  = request.data
-        nomeTerreno       = new_Terreno_data['nomeTerreno']
-        codigo            = new_Terreno_data['codigo']
-        gestor            = new_Terreno_data['gestor']
-        cidade            = new_Terreno_data['cidade']
-        zoneamento        = new_Terreno_data['zoneamento']
+        print(new_Terreno_data)
+        # nomeTerreno       = new_Terreno_data['nomeTerreno']
+        # codigo            = new_Terreno_data['codigo']
+        # gestor            = new_Terreno_data['gestor']
+        # cidade            = new_Terreno_data['cidade']
+        # zoneamento        = new_Terreno_data['zoneamento']
+        # publico           = new_Terreno_data['publico']
+        # operacaoUrbana    = new_Terreno_data['operacaoUrbana']
+        # nr                = new_Terreno_data['nr']
+        
         metragem          = new_Terreno_data['metragem']
-        publico           = new_Terreno_data['publico']
-        operacaoUrbana    = new_Terreno_data['operacaoUrbana']
         tipoTorre         = new_Terreno_data['tipoTorre']
         quantAndar        = new_Terreno_data['quantAndar']
         quantApartAndar   = new_Terreno_data['quantApartAndar']
@@ -101,8 +100,16 @@ def adiciona_terreno(request):
         numVagas          = new_Terreno_data['numVagas']
         quantAndarGaragem = new_Terreno_data['quantAndarGaragem']
         fachada           = new_Terreno_data['fachada']
-        nr                = new_Terreno_data['nr']
+        tipovaga          = new_Terreno_data['tipovaga']
         user              = request.user
+        
+        eficiencia, coef_aprov = fc.funcao([tipoTorre], [int(quantApartAndar)], [int(quantAndar)], 
+                                            [int(quantTorre)], metragem, int(fachada), garagem, 
+                                            int(numVagas), tipovaga, int(quantAndarGaragem))
+
+        print(eficiencia, coef_aprov)
+        
+        # print(funcao(['ODS 4 Plus'], [10], [2], [18], 4476, 0, 'não há', 0, 'não há', 0))
         
         # andarNr          = new_Terreno_data['andarNr']
         # NumAndarNr       = new_Terreno_data['NumAndarNr']
@@ -110,41 +117,14 @@ def adiciona_terreno(request):
         # ca               = new_Terreno_data['ca']
         # eficiencia       = new_Terreno_data['eficiencia']
 
-    #     Terrenos = Terreno(nomeTerreno=nomeTerreno, codigo=codigo, metragem= metragem, zoneamento=zoneamento,
-    #                        publico=publico, gestor=gestor, torre=torre, andares=andares, numAndar=numAndar, quantTorre=quantTorre,
-    #                        garagem=garagem, numVagas=numVagas, numMotos=numMotos, andaresGaragem=andaresGaragem, metragemMall=metragemMall,
-    #                        andaresMall=andaresMall, andarNr=andarNr, NumAndarNr=NumAndarNr, quantNr=quantNr, ca=ca, eficiencia=eficiencia, 
-    #                        user= user)
-    #     Terrenos.save()
+        # Terrenos = Terreno(nomeTerreno='', codigo='', metragem= metragem, zoneamento='',
+        #                    publico='', gestor='', torre=tipoTorre, andares='', numAndar='', quantTorre=quantTorre,
+        #                    garagem=garagem, numVagas=numVagas, numMotos='', andaresGaragem='', metragemMall='',
+        #                    andaresMall='', andarNr='', NumAndarNr='', quantNr='', ca=coef_aprov, eficiencia=eficiencia, 
+        #                    user= user)
+        # Terrenos.save()
     #     return Response(status=200)
     # else:
     #     return HttpResponseForbidden()
         # area_equivalente(torre, quanto_por_andar, quantTorre, num_andares, lazer_externo, área_terreno, área_mall, vagas_ed_garagem)
-        return Response(status=200)
-
-# {'nomeTerreno': 'teste', 'codigo': 23, 'gestor': 'Adriano Engel', 'cidade': 'São Paulo', 'zoneamento': 'ZEU', 'metragem': 232, 'publico': 'HMP',
-# 'operacaoUrbana': 'Não tem', 'tipoTorre': 'Eng 1', 'quantAndar': 123, 'quantApartAndar': 8, 'quantTorr1': 123, 'garagem': 'Edifício Garagem', 
-# 'numVagas': 123, 'quantAndarGaragem': 123, 'fachada': '123', 'nr': 'Sim'}
-
-# title        
-# nomeTerreno  
-# codigo        
-# metragem      
-# zoneamento   
-# publico      
-# gestor       
-# torre        
-# andares       
-# numAndar      
-# quantTorre    
-# garagem      
-# numVagas      
-# numMotos      
-# andaresGaragem
-# metragemMall  
-# andaresMall   
-# andarNr       
-# NumAndarNr    
-# quantNr       
-# ca      
-# eficiencia
+        return Response([round(eficiencia, 3), round(coef_aprov, 3)], status=200)
