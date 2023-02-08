@@ -78,7 +78,6 @@ def api_terrenos(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def adiciona_terreno(request):
-    print(request.data)
     if request.method == 'POST':
         new_Terreno_data  = request.data
         print(new_Terreno_data)
@@ -95,7 +94,7 @@ def adiciona_terreno(request):
         tipoTorre         = new_Terreno_data['tipoTorre']
         quantAndar        = new_Terreno_data['quantAndar']
         quantApartAndar   = new_Terreno_data['quantApartAndar']
-        quantTorre        = new_Terreno_data['quantTorre1']
+        quantTorre        = new_Terreno_data['quantTorre']
         garagem           = new_Terreno_data['garagem']
         numVagas          = new_Terreno_data['numVagas']
         quantAndarGaragem = new_Terreno_data['quantAndarGaragem']
@@ -103,11 +102,12 @@ def adiciona_terreno(request):
         tipovaga          = new_Terreno_data['tipovaga']
         user              = request.user
         
-        eficiencia, coef_aprov = fc.funcao([tipoTorre], [int(quantApartAndar)], [int(quantAndar)], 
-                                            [int(quantTorre)], metragem, int(fachada), garagem, 
-                                            int(numVagas), tipovaga, int(quantAndarGaragem))
+        
+        eficiencia, coef_aprov = fc.funcao(tipoTorre, quantApartAndar, quantAndar, 
+                                    quantTorre, metragem, fachada, garagem, 
+                                    numVagas, tipovaga, quantAndarGaragem)
 
-        print(eficiencia, coef_aprov)
+        # print(eficiencia, coef_aprov)
         
         # print(funcao(['ODS 4 Plus'], [10], [2], [18], 4476, 0, 'não há', 0, 'não há', 0))
         
@@ -127,4 +127,6 @@ def adiciona_terreno(request):
     # else:
     #     return HttpResponseForbidden()
         # area_equivalente(torre, quanto_por_andar, quantTorre, num_andares, lazer_externo, área_terreno, área_mall, vagas_ed_garagem)
+        # eficiencia = 0
+        # coef_aprov = 0
         return Response([round(eficiencia, 3), round(coef_aprov, 3)], status=200)
