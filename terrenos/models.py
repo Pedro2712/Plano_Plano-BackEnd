@@ -1,31 +1,31 @@
 # Create your models here.
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields import ArrayField
 
 
 class Terreno(models.Model):
-    nomeTerreno    = models.CharField(max_length=200)
-    codigo         = models.IntegerField(null=True)
-    metragem       = models.FloatField(null=True)
-    zoneamento     = models.CharField(max_length=200)
-    publico        = models.CharField(max_length=200)
-    gestor         = models.CharField(max_length=200)
-    torre          = models.CharField(max_length=200)
-    andares        = models.IntegerField(null=True)
-    numAndar       = models.IntegerField(null=True)
-    quantTorre     = models.IntegerField(null=True)
-    garagem        = models.CharField(max_length=200)
-    numVagas       = models.IntegerField(null=True)
-    numMotos       = models.IntegerField(null=True)
-    andaresGaragem = models.IntegerField(null=True)
-    metragemMall   = models.FloatField(null=True)
-    andaresMall    = models.IntegerField(null=True)
-    andarNr        = models.IntegerField(null=True)
-    NumAndarNr     = models.IntegerField(null=True)
-    quantNr        = models.IntegerField(null=True)
-    ca             = models.FloatField()
-    eficiencia     = models.FloatField()
-    user           = models.ForeignKey(User, on_delete=models.CASCADE)
+    gestor           = models.CharField(max_length=200, null=True)
+    codigo           = models.IntegerField(null=True)
+    nomeTerreno      = models.CharField(max_length=200, null=True)
+    metragem         = models.FloatField(null=True)
+    zoneamento       = models.CharField(max_length=200, null=True)
+    publico          = models.CharField(max_length=200, null=True)
+    tipoFachadaAtiva = models.IntegerField(null=True)
+    garagem          = models.CharField(max_length=200, null=True)
+    numVagas         = models.IntegerField(null=True)
+    andaresGaragem   = models.IntegerField(null=True)
+    tipovaga         = models.CharField(max_length=200, null=True)
+    fachadaAtiva     = models.IntegerField(null=True)
+    
+    tipoTorre        = ArrayField(models.CharField(max_length=200), null=True)
+    quantAndar       = ArrayField(models.IntegerField(), null=True)
+    apartAndar       = ArrayField(models.IntegerField(), null=True)
+    quantTorre       = ArrayField(models.IntegerField(), null=True)
+    
+    coef_aprov       = models.FloatField(null=True)
+    eficiencia       = models.FloatField(null=True)
+    user             = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.id}. {self.title}"
+        return f"{self.id}. {self.nomeTerreno}"
