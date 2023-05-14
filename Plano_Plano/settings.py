@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -84,12 +86,12 @@ WSGI_APPLICATION = 'Plano_Plano.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 # DATABASES = {
 #     'default': {
@@ -102,6 +104,30 @@ DATABASES = {
 #     }
 # }
 
+# carrega as variáveis de ambiente do arquivo .env
+load_dotenv()
+
+# define as configurações do banco de dados
+SQL_SERVER = os.getenv("SQL_SERVER")
+SQL_USER = os.getenv("SQL_USER")
+SQL_PASSWORD = os.getenv("SQL_PASSWORD")
+SQL_DB = os.getenv("SQL_DB")
+SQL_PORT = os.getenv("SQL_PORT") 
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': SQL_DB,
+        'USER': SQL_USER,
+        'PASSWORD': SQL_PASSWORD,
+        'HOST': SQL_SERVER,
+        'PORT': SQL_PORT,
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+            'sql_mode': 'STRICT_TRANS_TABLES',
+        },
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

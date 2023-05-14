@@ -18,10 +18,10 @@ class Terreno(models.Model):
     tipovaga         = models.CharField(max_length=200, null=True)
     fachadaAtiva     = models.IntegerField(null=True)
     
-    tipoTorre        = ArrayField(models.CharField(max_length=200), null=True)
-    quantAndar       = ArrayField(models.IntegerField(), null=True)
-    apartAndar       = ArrayField(models.IntegerField(), null=True)
-    quantTorre       = ArrayField(models.IntegerField(), null=True)
+    tipoTorre        = models.TextField(null=True)
+    quantAndar       = models.TextField(null=True)
+    apartAndar       = models.TextField(null=True)
+    quantTorre       = models.TextField(null=True)
     
     coef_aprov       = models.FloatField(null=True)
     eficiencia       = models.FloatField(null=True)
